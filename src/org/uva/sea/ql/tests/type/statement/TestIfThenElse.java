@@ -9,8 +9,8 @@ import org.uva.sea.ql.message.Message;
 import org.uva.sea.ql.parser.ANTLRParser;
 import org.uva.sea.ql.parser.IParse;
 import org.uva.sea.ql.parser.error.ParseError;
-import org.uva.sea.ql.visitor.typeCheck.FormTypeCheckVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
+import org.uva.sea.ql.visitor.typeChecker.FormValidator;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
 
 public class TestIfThenElse {
 	private final IParse parser = new ANTLRParser();
@@ -66,6 +66,6 @@ public class TestIfThenElse {
 	}
 	
 	private void parseForm(String formString) throws ParseError {
-    	parser.parseForm(formString).accept(new FormTypeCheckVisitor(typeMapper, errors));
+    	parser.parseForm(formString).accept(new FormValidator(typeMapper, errors));
 	}
 }

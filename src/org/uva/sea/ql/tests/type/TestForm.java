@@ -12,8 +12,8 @@ import org.uva.sea.ql.parser.IParse;
 import org.uva.sea.ql.parser.error.ParseError;
 import org.uva.sea.ql.type.BooleanType;
 import org.uva.sea.ql.type.IntegerType;
-import org.uva.sea.ql.visitor.typeCheck.FormTypeCheckVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
+import org.uva.sea.ql.visitor.typeChecker.FormValidator;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
 
 public class TestForm {
 	private final IParse parser = new ANTLRParser();
@@ -32,7 +32,7 @@ public class TestForm {
 
 	@Test
 	public void testProvidedForm() throws ParseError {
-		parser.parseForm(formString).accept(new FormTypeCheckVisitor(typeMapper, errors));
+		parser.parseForm(formString).accept(new FormValidator(typeMapper, errors));
     	assertEquals(errors.size(), 0);
     	
 		assertEquals(typeMapper.getType(new Ident("hasSoldHouse")).getClass(), BooleanType.class);

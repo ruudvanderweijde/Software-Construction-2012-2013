@@ -10,8 +10,8 @@ import org.uva.sea.ql.message.Message;
 import org.uva.sea.ql.parser.ANTLRParser;
 import org.uva.sea.ql.parser.IParse;
 import org.uva.sea.ql.parser.error.ParseError;
-import org.uva.sea.ql.visitor.typeCheck.ExpressionTypeVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
+import org.uva.sea.ql.visitor.typeChecker.ExpressionValidator;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
 
 public class TestBinary {
 	private final IParse parser = new ANTLRParser();
@@ -169,6 +169,6 @@ public class TestBinary {
 	}
 	
 	private boolean isValidExpression(String expression) throws ParseError {
-		return parser.parseExpression(expression).accept(new ExpressionTypeVisitor(typeMapper, errors));
+		return parser.parseExpression(expression).accept(new ExpressionValidator(typeMapper, errors));
 	}
 }

@@ -18,7 +18,7 @@ import org.uva.sea.ql.ast.stmt.question.NormalQuestion;
 import org.uva.sea.ql.ast.stmt.question.Question;
 import org.uva.sea.ql.message.Message;
 import org.uva.sea.ql.visitor.IFormVisitor;
-import org.uva.sea.ql.visitor.valueCheck.ValueMapper;
+import org.uva.sea.ql.visitor.valueComputer.ValueMapper;
 
 public class FormRenderer implements IFormVisitor {
 	private STGroup formTemplate;

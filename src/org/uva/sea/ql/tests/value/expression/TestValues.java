@@ -13,8 +13,8 @@ import org.uva.sea.ql.value.BooleanValue;
 import org.uva.sea.ql.value.IntegerValue;
 import org.uva.sea.ql.value.StringValue;
 import org.uva.sea.ql.value.Value;
-import org.uva.sea.ql.visitor.valueCheck.ExpressionValueVisitor;
-import org.uva.sea.ql.visitor.valueCheck.ValueMapper;
+import org.uva.sea.ql.visitor.valueComputer.ExpressionComputer;
+import org.uva.sea.ql.visitor.valueComputer.ValueMapper;
 
 public class TestValues {
 	private final IParse parser = new ANTLRParser();
@@ -157,6 +157,6 @@ public class TestValues {
 	}
 	
 	private Value getValueByExpression(String strExpression) throws ParseError {
-		return parser.parseExpression(strExpression).accept(new ExpressionValueVisitor(valueMapper, errors));
+		return parser.parseExpression(strExpression).accept(new ExpressionComputer(valueMapper, errors));
 	}
 }

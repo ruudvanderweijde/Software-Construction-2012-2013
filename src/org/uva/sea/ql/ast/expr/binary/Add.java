@@ -4,7 +4,7 @@ import org.uva.sea.ql.ast.expr.Expr;
 import org.uva.sea.ql.type.NumericType;
 import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.visitor.IExpressionVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
 
 public class Add extends Binary {
 
@@ -14,7 +14,7 @@ public class Add extends Binary {
 
 	@Override
 	public String toString() {
-		return "+";
+		return " + ";
 	}
 
 	@Override

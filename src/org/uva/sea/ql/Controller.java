@@ -32,10 +32,10 @@ import org.uva.sea.ql.parser.error.ParseError;
 import org.uva.sea.ql.type.Type;
 import org.uva.sea.ql.value.Value;
 import org.uva.sea.ql.visitor.renderer.FormRenderer;
-import org.uva.sea.ql.visitor.typeCheck.FormTypeCheckVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
-import org.uva.sea.ql.visitor.valueCheck.ExpressionValueVisitor;
-import org.uva.sea.ql.visitor.valueCheck.ValueMapper;
+import org.uva.sea.ql.visitor.typeChecker.FormValidator;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
+import org.uva.sea.ql.visitor.valueComputer.ExpressionComputer;
+import org.uva.sea.ql.visitor.valueComputer.ValueMapper;
 
 /**
  * Controller handles web requests
@@ -49,7 +49,7 @@ public class Controller extends HttpServlet {
 	private final String inputDirectory = "forms/";
 	private final String outputDirectory = "c:/tmp/forms/";
 	private final String templateDirectory = "templates/";;
-	private static List<Message> errors = new ArrayList<Message>();
+	private List<Message> errors = new ArrayList<Message>();
 	private Map<String, TypeMapper> formTypeMapper = new HashMap<String, TypeMapper>();
 	private Map<String, ValueMapper> formValueMapper = new HashMap<String, ValueMapper>();
 
@@ -137,7 +137,7 @@ public class Controller extends HttpServlet {
 		try {
 			Form form = parser.parseForm(strInput);
 
-			form.accept(new FormTypeCheckVisitor(typeMapper, errors));
+			form.accept(new FormValidator(typeMapper, errors));
 			if (!errors.isEmpty()) {
 				return false;
 			}
@@ -180,7 +180,7 @@ public class Controller extends HttpServlet {
 				if (!inputToCheck.isEmpty()) {
 					try {
 						Value value = parser.parseExpression(inputToCheck).accept(
-								new ExpressionValueVisitor(valueMapper, errors));
+								new ExpressionComputer(valueMapper, errors));
 						Type questionType = typeMapper.getType(id);
 						if (!questionType.isCompatibleTo(value)) {
 							addError("Invalid value for '" + key + "'. Please correct the field.");
@@ -233,7 +233,7 @@ public class Controller extends HttpServlet {
 		}
 	}
 
-	private static void printErrorsAsText(PrintWriter output) throws IOException {
+	private void printErrorsAsText(PrintWriter output) throws IOException {
 		output.println("<PRE>");
 		output.println("Errors found! Please correct the following " + errors.size() + " errors.");
 		output.println("---------------------------------------------------------------------");
@@ -246,7 +246,7 @@ public class Controller extends HttpServlet {
 		errors.clear();
 	}
 
-	private static void printJSONOutput(PrintWriter output) throws IOException {
+	private void printJSONOutput(PrintWriter output) throws IOException {
 		StringBuilder json = new StringBuilder();
 		
 		json.append("{\"Errors\":[");
@@ -274,7 +274,7 @@ public class Controller extends HttpServlet {
 
 	}
 
-	private static void writeFormValuesToFile(Map<String, String> formValuesMap, String fileName) {
+	private  void writeFormValuesToFile(Map<String, String> formValuesMap, String fileName) {
 		try {
 			String formValues = "";
 			for (Map.Entry<String, String> entry : formValuesMap.entrySet()) {
@@ -298,7 +298,7 @@ public class Controller extends HttpServlet {
 		return randomFileName;
 	}
 	
-	private static void addError(String message) {
+	private  void addError(String message) {
 		errors.add(new Error(message));
 	}
 	

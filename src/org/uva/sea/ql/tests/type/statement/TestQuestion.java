@@ -13,8 +13,8 @@ import org.uva.sea.ql.parser.error.ParseError;
 import org.uva.sea.ql.type.BooleanType;
 import org.uva.sea.ql.type.IntegerType;
 import org.uva.sea.ql.type.StringType;
-import org.uva.sea.ql.visitor.typeCheck.FormTypeCheckVisitor;
-import org.uva.sea.ql.visitor.typeCheck.TypeMapper;
+import org.uva.sea.ql.visitor.typeChecker.FormValidator;
+import org.uva.sea.ql.visitor.typeChecker.TypeMapper;
 
 public class TestQuestion {
 	private final IParse parser = new ANTLRParser();
@@ -131,6 +131,6 @@ public class TestQuestion {
 	}
 	
 	private void parseForm(String formString) throws ParseError {
-    	parser.parseForm(formString).accept(new FormTypeCheckVisitor(typeMapper, errors));
+    	parser.parseForm(formString).accept(new FormValidator(typeMapper, errors));
 	}
 }
